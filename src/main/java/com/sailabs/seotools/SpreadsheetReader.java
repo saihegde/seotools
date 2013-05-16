@@ -16,8 +16,8 @@ public class SpreadsheetReader {
 
 	public static void main(String[] args) throws IOException, ServiceException {
 
-		String USERNAME = "saihegde@gmail.com";
-		String PASSWORD = "Gxang0rsl";
+		String USERNAME = "asasadffggg";
+		String PASSWORD = "dsfsfsdfsfsfs";
 
 		SpreadsheetService service = new SpreadsheetService("MySpreadsheetIntegration-v1");
 		service.setUserCredentials(USERNAME, PASSWORD);
