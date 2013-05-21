@@ -25,32 +25,13 @@ public class RedirectDetector {
 		InputStream ExcelFileToRead = new FileInputStream(filePath);
 		XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
 		XSSFSheet sheet = wb.getSheetAt(0);
-		// XSSFRow row;
-		// XSSFCell cell;
 		Iterator<Row> iterator = sheet.rowIterator();
 		List<Row> rows = new ArrayList<Row>();
 		while (iterator.hasNext())
 			rows.add((Row) iterator.next());
-
 		return rows;
 	}
 
-	public static void main(String[] args) {
-		RedirectDetector rd = new RedirectDetector();
-		try {
-			for (Row row : rd.readXLSFile("C:/Users/shegde/Downloads/301redirects.xlsx")) {
-				System.out.println("Original URL: " + row.getCell(0).getStringCellValue());
-				System.out.println("Redirected URL: " + rd.getRedirectedURL(row.getCell(0).getStringCellValue()));
-			}
-		} catch (ClientProtocolException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	@SuppressWarnings("deprecation")
 	public String getRedirectedURL(String url)  {
 		WebClient webClient = new WebClient();
@@ -63,11 +44,10 @@ public class RedirectDetector {
 			e1.printStackTrace();
 		}
 		webClient.setRedirectEnabled(true);
-		HtmlPage loginPage;
+		HtmlPage webPage;
 		try {
-			loginPage = webClient.getPage(new URL(url));
-			System.out.println(loginPage.getUrl());
-			return loginPage.getUrl().toString();
+			webPage = webClient.getPage(new URL(url));
+			return webPage.getUrl().toString();
 		} catch (FailingHttpStatusCodeException e) {
 			e.printStackTrace();
 		} catch (MalformedURLException e) {
@@ -78,5 +58,19 @@ public class RedirectDetector {
 		return null;
 	}
 
+	
 
+	public static void main(String[] args) {
+		RedirectDetector rd = new RedirectDetector();
+		try {
+			for (Row row : rd.readXLSFile("C:/Users/shegde/Downloads/301redirects.xlsx")) {
+				System.out.println("Original URL: " + row.getCell(0).getStringCellValue());
+				System.out.println("Redirected URL: " + rd.getRedirectedURL(row.getCell(0).getStringCellValue()));
+			}
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
