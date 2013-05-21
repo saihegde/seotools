@@ -1,8 +1,16 @@
 package com.sailabs.seotools;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import com.google.gdata.client.spreadsheet.SpreadsheetService;
 import com.google.gdata.data.spreadsheet.CustomElementCollection;
@@ -32,7 +40,7 @@ public class SpreadsheetReader {
 			// TODO: There were no spreadsheets, act accordingly.
 		} else {
 			System.out.println(spreadsheets.size());
-			for(SpreadsheetEntry spreadsheet: spreadsheets){
+			for (SpreadsheetEntry spreadsheet : spreadsheets) {
 				System.out.println(spreadsheet.getTitle().getPlainText());
 				System.out.println(spreadsheet.getId());
 			}
@@ -59,9 +67,20 @@ public class SpreadsheetReader {
 			e.printStackTrace();
 		}
 	}
-	
-	public void read(String gdocUrl, String username, String password){
-		
+
+	public void read(String gdocUrl, String username, String password) {
+
+	}
+
+	public List<Row> read(String filePath) throws IOException {
+		InputStream ExcelFileToRead = new FileInputStream(filePath);
+		XSSFWorkbook wb = new XSSFWorkbook(ExcelFileToRead);
+		XSSFSheet sheet = wb.getSheetAt(0);
+		Iterator<Row> iterator = sheet.rowIterator();
+		List<Row> rows = new ArrayList<Row>();
+		while (iterator.hasNext())
+			rows.add((Row) iterator.next());
+		return rows;
 	}
 
 }
