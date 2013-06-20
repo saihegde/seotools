@@ -1,4 +1,4 @@
-package com.sailabs.seotools;
+package com.sailabs.seotools.launchers;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,7 +10,10 @@ import org.apache.poi.ss.usermodel.Row;
 
 import au.com.bytecode.opencsv.CSVWriter;
 
-public class Launcher {
+import com.sailabs.seotools.RedirectDetector;
+import com.sailabs.seotools.SpreadsheetReader;
+
+public class RedirectDetectorLauncher {
 
 	public static void main(String[] args) throws IOException {
 		String inputFilePath = null;
