@@ -9,10 +9,9 @@ import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
 
-public class RedirectDetector {
-
-	@SuppressWarnings("deprecation")
-	public String getRedirectedURL(String url) {
+public class PageSourceReader {
+	
+	public static String read(String url) {
 		WebClient webClient = new WebClient();
 		webClient.setJavaScriptEnabled(false);
 		webClient.setThrowExceptionOnScriptError(false);
@@ -26,7 +25,7 @@ public class RedirectDetector {
 		HtmlPage webPage;
 		try {
 			webPage = webClient.getPage(new URL(url));
-			return webPage.getUrl().toString();
+			return webPage.asXml();
 		} catch (FailingHttpStatusCodeException e) {
 			e.printStackTrace();
 		} catch (MalformedURLException e) {
@@ -35,12 +34,6 @@ public class RedirectDetector {
 			e.printStackTrace();
 		}
 		return null;
-	}
-	
-	public static void main(String[] args) {
-		String url = "https://www.directvaloans.com";
-		RedirectDetector rd = new RedirectDetector();
-		rd.getRedirectedURL(url);
 	}
 
 }

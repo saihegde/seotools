@@ -12,10 +12,11 @@ public class MetatagReader {
 	public static void main(String[] args) throws IOException {
 		String url = "https://www.directvaloans.com/apply-now";
 		Document document = Jsoup.connect(url).get();
-		Elements links = document.select("script"); 
+		/*Elements links = document.select("script"); 
 		System.out.println(links);
 		Elements noScriptlinks = document.select("noscript"); 
-		System.out.println(noScriptlinks);
+		System.out.println(noScriptlinks);*/
+		System.out.println(getMetaTag(document, "google-site-verification"));
 	}
 	
 	public static String getMetaTag(String url, String attr) throws IOException{

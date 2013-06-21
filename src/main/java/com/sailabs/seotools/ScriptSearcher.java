@@ -1,11 +1,5 @@
 package com.sailabs.seotools;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 public class ScriptSearcher {
 	
@@ -19,79 +13,46 @@ public class ScriptSearcher {
 	Marin - landing page tracking code
 	Marin - confirmation page tracking code*/
 	
-	private Document document;
+	private String pageSource;
 	
 	public ScriptSearcher(String url){
-		try {
-			this.document = Jsoup.connect(url).get();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		this.pageSource = PageSourceReader.read(url);
 	}
 	
 	public boolean hasQbitPixelScript(){
-		List<Element> scriptElements = getScripts(document);
-		for(Element element : scriptElements){
-			if(element.attr("src").equals("//d3c3cq33003psk.cloudfront.net/opentag-55742-246999.js")){
-				return true;
-			}
-		}
-		return false;
+		return pageSource.contains("//d3c3cq33003psk.cloudfront.net/opentag-55742-246999.js");
 	}
 	
 	public boolean hasGoogleAnalyticsScript(){
-		List<Element> scriptElements = getScripts(document);
-		for(Element element : scriptElements){
-			if(element.toString().contains("google-analytics.com")){
-				return true;
-			}
-		}
-		return false;
+		return pageSource.contains("google-analytics.com");
 	}
 	
 	public boolean hasOptamizlyScript(){
-		return false;
+		return pageSource.contains("optamizly.com");
 	}
 	
-	public boolean hasGoogleConevrsionOptimizerScript(){
-		return false;
+	public boolean hasGoogleConversionOptimizerScript(){
+		return pageSource.contains("optamizly.com");
 	}
 	
 	public boolean hasLinkshareScript(){
-		return false;
+		return pageSource.contains("linkshare.com");
 	}
 	
 	public boolean hasGoogleTagManagerScript(){
-		List<Element> scriptElements = getScripts(document);
-		System.out.println(getScripts(document));
-		for(Element element : scriptElements){
-			if(element.toString().contains("*********************")){
-				return true;
-			}
-		}
-		return false;
+		return pageSource.contains("www.googletagmanager.com/ns.html");
 	}
 
 	public boolean hasGoogleWebMasterToolsScript(){
-		return false;
+		return pageSource.contains("google-site-verification");
 	}
 	
 	public boolean hasMarinSoftwareTrackingScript(){
-		List<Element> scriptElements = getNoScripts(document);
-		for(Element element : scriptElements){
-			if(element.toString().contains("tracker.marinsm.com")){
-				return true;
-			}
-		}
-		return false;
+		return pageSource.contains("tracker.marinsm.com");
 	}
 	
-	private List<Element> getScripts(Document doc) {
-		return document.select("script");
+	public boolean hasMarinLandingPageTrackingScript(){
+		return pageSource.contains("https://tracker.marinsm.com/tp?act=1&amp;cid=w0ynh6crt0&amp;script=no");
 	}
 	
-	private List<Element> getNoScripts(Document doc) {
-		return document.select("noscript");
-	}
 }
